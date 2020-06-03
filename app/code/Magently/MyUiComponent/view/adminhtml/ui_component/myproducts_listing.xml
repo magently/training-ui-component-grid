@@ -1,0 +1,242 @@
+<?xml version="1.0"?>
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                myproducts_listing.myproducts_listing_data_source
+            </item>
+        </item>
+    </argument>
+
+    <settings>
+        <buttons>
+            <button name="add">
+                <url path="*/*/addNew"/>
+                <class>primary</class>
+                <label translate="true">Add New</label>
+            </button>
+
+            <button name="back">
+                <url path="*/*/back"/>
+                <label translate="true">Back</label>
+            </button>
+            <!-- add more buttons here -->
+        </buttons>
+
+        <!-- Aby spinner zniknął po wczytaniu kolumn -->
+        <spinner>myproducts_columns</spinner>
+
+        <deps>
+            <dep>myproducts_listing.myproducts_listing_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="my_some_name" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">entity_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+
+        <dataProvider class="MyProductsGridDataProvider" name="myproducts_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+
+        <bookmark name="bookmarks"/>
+
+        <paging name="listing_paging"/>
+
+        <columnsControls name="columns_controls"/>
+
+        <filterSearch name="fulltext"/>
+
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="applied" xsi:type="array">
+                        <item name="is_active" xsi:type="string">1</item>
+                        <!-- add more items here -->
+                    </item>
+                </item>
+            </argument>
+        </filters>
+
+        <exportButton name="export_button"/>
+
+        <massaction name="listing_massaction">
+            <settings>
+                <selectProvider>
+                    myproducts_listing.myproducts_listing.myproducts_columns.ids
+                </selectProvider>
+            </settings>
+
+            <action name="delete">
+                <settings>
+                    <confirm>
+                        <message translate="true">
+                            Are you sure you want to delete selected product?
+                        </message>
+                        <title translate="true">Delete Selected Products</title>
+                    </confirm>
+                    <url path="*/*/massDelete"/>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                </settings>
+            </action>
+            <!-- add next action here -->
+        </massaction>
+    </listingToolbar>
+
+    <columns name="myproducts_columns">
+        <!-- click on whole row
+        <settings>
+            <childDefaults>
+                <param name="fieldAction" xsi:type="array">
+                    <item name="provider" xsi:type="string">
+                        myproducts_listing.myproducts_listing.myproducts_columns.actions
+                    </item>
+                    <item name="target" xsi:type="string">applyAction</item>
+                    <item name="params" xsi:type="array">
+                        <item name="0" xsi:type="string">edit</item>
+                        <item name="1" xsi:type="string">${ $.$data.rowIndex }</item>
+                    </item>
+                </param>
+            </childDefaults>
+        </settings>
+        -->
+
+        <!-- inline edit row -->
+        <settings>
+            <editorConfig>
+                <param name="clientConfig" xsi:type="array">
+                    <item name="saveUrl" xsi:type="url" path="*/*/inlineEdit"/>
+                    <item name="validateBeforeSave" xsi:type="boolean">false</item>
+                </param>
+                <param name="indexField" xsi:type="string">entity_id</param>
+                <param name="enabled" xsi:type="boolean">true</param>
+                <param name="selectProvider" xsi:type="string">
+                    myproducts_listing.myproducts_listing.myproducts_columns.ids
+                </param>
+            </editorConfig>
+            <childDefaults>
+                <param name="fieldAction" xsi:type="array">
+                    <item name="provider" xsi:type="string">
+                        myproducts_listing.myproducts_listing.myproducts_columns_editor
+                    </item>
+                    <item name="target" xsi:type="string">startEdit</item>
+                    <item name="params" xsi:type="array">
+                        <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+                        <item name="1" xsi:type="boolean">true</item>
+                    </item>
+                </param>
+            </childDefaults>
+        </settings>
+
+        <selectionsColumn name="ids" sortOrder="5">
+            <settings>
+                <indexField>entity_id</indexField>
+                <label translate="true">Select</label>
+            </settings>
+        </selectionsColumn>
+
+        <column name="entity_id" sortOrder="10">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>asc</sorting>
+            </settings>
+        </column>
+
+        <column name="name" sortOrder="20">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Name</label>
+                <editor>
+                    <editorType>text</editorType>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                </editor>
+            </settings>
+        </column>
+
+        <column name="price"
+                class="Magento\Catalog\Ui\Component\Listing\Columns\Price"
+                sortOrder="30">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Price</label>
+            </settings>
+        </column>
+
+        <column name="image"
+                class="Magently\MyUiComponent\Ui\Component\Listing\Columns\Image"
+                component="Magento_Ui/js/grid/columns/thumbnail"
+                sortOrder="40">
+            <settings>
+                <hasPreview>1</hasPreview>
+                <sortable>false</sortable>
+                <label translate="true">Image</label>
+            </settings>
+        </column>
+
+        <column name="description" sortOrder="50">
+            <settings>
+                <label translate="true">Description</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+
+        <column name="last_update"
+                class="Magento\Ui\Component\Listing\Columns\Date"
+                component="Magento_Ui/js/grid/columns/date"
+                sortOrder="60">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Last Update</label>
+                <editor>
+                    <editorType>date</editorType>
+                </editor>
+            </settings>
+        </column>
+
+        <column name="is_active"
+                component="Magento_Ui/js/grid/columns/select"
+                sortOrder="70">
+            <settings>
+                <filter>select</filter>
+                <options class="Magento\Config\Model\Config\Source\Yesno"/>
+                <dataType>select</dataType>
+                <label translate="true">Is Active</label>
+                <editor>
+                    <editorType>select</editorType>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                </editor>
+            </settings>
+        </column>
+
+        <actionsColumn name="actions"
+                       class="Magently\MyUiComponent\Ui\Component\Listing\Columns\BlockActions">
+            <settings>
+                <indexField>entity_id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+
+</listing>

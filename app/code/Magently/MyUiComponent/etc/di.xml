@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magently\MyUiComponent\Api\Data\MyProductsInterface" type="Magently\MyUiComponent\Model\MyProducts" />
+    <preference for="Magently\MyUiComponent\Api\MyProductsRepositoryInterface" type="Magently\MyUiComponent\Model\MyProductsRepository" />
+</config>
