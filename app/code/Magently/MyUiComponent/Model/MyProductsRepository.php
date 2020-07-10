@@ -15,12 +15,12 @@ use Magento\Framework\Exception\NoSuchEntityException;
 class MyProductsRepository implements MyProductsRepositoryInterface
 {
     /**
-     * @var object
+     * @var MyProductsFactory
      */
-    private $objectFactory;
+    private $myProductsFactory;
 
     /**
-     * @var object
+     * @var CollectionFactory
      */
     private $collectionFactory;
 
@@ -32,44 +32,44 @@ class MyProductsRepository implements MyProductsRepositoryInterface
     /**
      * Constructor.
      *
-     * @param MyProductsFactory $objectFactory
+     * @param MyProductsFactory $myProductsFactory
      * @param CollectionFactory $collectionFactory
      * @param SearchResultsInterfaceFactory $searchResultsFactory
      */
     public function __construct(
-        MyProductsFactory $objectFactory,
+        MyProductsFactory $myProductsFactory,
         CollectionFactory $collectionFactory,
         SearchResultsInterfaceFactory $searchResultsFactory
     ) {
-        $this->objectFactory = $objectFactory;
+        $this->myProductsFactory = $myProductsFactory;
         $this->collectionFactory = $collectionFactory;
         $this->searchResultsFactory = $searchResultsFactory;
     }
 
     /**
-     * @param MyProductsInterface $object
+     * @param MyProductsInterface $myProduct
      * @return MyProductsInterface
      * @throws CouldNotSaveException Save failed.
      */
-    public function save(MyProductsInterface $object)
+    public function save(MyProductsInterface $myProduct)
     {
         try {
-            $object->save();
+            $myProduct->save();
         } catch (\Exception $e) {
             throw new CouldNotSaveException(__($e->getMessage()));
         }
-        return $object;
+        return $myProduct;
     }
 
     /**
-     * @param MyProductsInterface $object
+     * @param MyProductsInterface $myProduct
      * @return boolean
      * @throws CouldNotDeleteException Delete failed.
      */
-    public function delete(MyProductsInterface $object)
+    public function delete(MyProductsInterface $myProduct)
     {
         try {
-            $object->delete();
+            $myProduct->delete();
         } catch (\Exception $exception) {
             throw new CouldNotDeleteException(__($exception->getMessage()));
         }
@@ -77,33 +77,32 @@ class MyProductsRepository implements MyProductsRepositoryInterface
     }
 
     /**
-     * Get object by ID
+     * Get MyProduct by ID
      *
-     * @param integer $objectId
-     * @return object
+     * @param integer $myProductId
+     * @return MyProductsInterface
      * @throws NoSuchEntityException ID not found.
      */
-    public function getById(int $objectId)
+    public function getById(int $myProductId)
     {
-        $object = $this->objectFactory->create();
-        $object->load($objectId);
-        if (!$object->getId()) {
-            throw new NoSuchEntityException(__('Object with id "%1" does not exist.', $objectId));
+        $myProduct = $this->myProductsFactory->create();
+        $myProduct->load($myProductId);
+        if (!$myProduct->getId()) {
+            throw new NoSuchEntityException(__('MyProduct with id "%1" does not exist.', $myProductId));
         }
-        return $object;
+        return $myProduct;
     }
 
     /**
-     * @param integer $objectId
-     * @return object
+     * @param integer $myProductId
+     * @return boolean
      */
-    public function deleteById(int $objectId)
+    public function deleteById(int $myProductId)
     {
-        return $this->delete($this->getById($objectId));
+        return $this->delete($this->getById($myProductId));
     }
 
     /**
-     *
      * @param SearchCriteriaInterface $criteria
      * @return object
      */

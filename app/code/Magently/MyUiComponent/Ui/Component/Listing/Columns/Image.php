@@ -39,11 +39,6 @@ class Image extends \Magento\Ui\Component\Listing\Columns\Column
     public function prepareDataSource(array $dataSource)
     {
         if (isset($dataSource['data']['items'])) {
-            // get URL to media directory, e.g. http://localhost/magento/media/
-            $urlMedia = $this->storeManager
-                ->getStore()
-                ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
-
             $fieldName = $this->getData('name'); // get field name, in our case it's "image"
 
             foreach ($dataSource['data']['items'] as & $item) {
@@ -53,12 +48,10 @@ class Image extends \Magento\Ui\Component\Listing\Columns\Column
                     continue;
                 }
 
-                $src = $urlMedia . $image; // prepare link to big image
-
-                $item[$fieldName . '_src'] = $src; // URL to thumbnail image
+                $item[$fieldName . '_src'] = $image; // URL to thumbnail image
                 $item[$fieldName . '_alt'] = $item['name']; // alt text
-                $item[$fieldName . '_link'] = $src; // URL for "Go to Details Page" link in preview
-                $item[$fieldName . '_orig_src'] = $src; // URL to big image
+                $item[$fieldName . '_link'] = $image; // URL for "Go to Details Page" link in preview
+                $item[$fieldName . '_orig_src'] = $image; // URL to big image
             }
         }
 

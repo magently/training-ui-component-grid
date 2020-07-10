@@ -8,16 +8,16 @@ use Magento\Framework\Api\SearchCriteriaInterface;
 interface MyProductsRepositoryInterface
 {
     /**
-     * @param MyProductsInterface $page
-     * @return mixed
+     * @param MyProductsInterface $myProduct
+     * @return MyProductsInterface
      */
-    public function save(MyProductsInterface $page);
+    public function save(MyProductsInterface $myProduct);
 
     /**
-     * @param integer $userId
-     * @return mixed
+     * @param integer $myProductId
+     * @return MyProductsInterface
      */
-    public function getById(int $userId);
+    public function getById(int $myProductId);
 
     /**
      * @param SearchCriteriaInterface $criteria
@@ -27,16 +27,16 @@ interface MyProductsRepositoryInterface
 
     /**
      *
-     * @param MyProductsInterface $page
-     * @return mixed
+     * @param MyProductsInterface $myProduct
+     * @return boolean
      */
-    public function delete(MyProductsInterface $page);
+    public function delete(MyProductsInterface $myProduct);
 
     /**
      *
-     * @param integer $userId
-     * @return mixed
+     * @param integer $myProductId
+     * @return boolean
      */
-    public function deleteById(int $userId);
+    public function deleteById(int $myProductId);
 }
 

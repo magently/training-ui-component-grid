@@ -20,14 +20,14 @@ class BlockActions extends \Magento\Ui\Component\Listing\Columns\Column
                 $item[$this->getData('name')] = [
                     'edit' => [
                         'href' => $this->getContext()->getUrl(
-                            '*/*/edit',
+                            'my_products/form/index',
                             ['id' => $item['entity_id']]
                         ),
                         'label' => __('Edit')
                     ],
                     'delete' => [
                         'href' => $this->getContext()->getUrl(
-                            '*/*/delete',
+                            'my_products/form/delete',
                             ['id' => $item['entity_id']]
                         ),
                         'label' => __('Delete'),

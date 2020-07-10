@@ -14,7 +14,7 @@
     <settings>
         <buttons>
             <button name="add">
-                <url path="*/*/addNew"/>
+                <url path="*/form/index"/>
                 <class>primary</class>
                 <label translate="true">Add New</label>
             </button>
@@ -208,6 +208,8 @@
                 <filter>dateRange</filter>
                 <dataType>date</dataType>
                 <label translate="true">Last Update</label>
+                <dateFormat>yyyy-MM-dd</dateFormat>
+                <timezone>false</timezone>
                 <editor>
                     <editorType>date</editorType>
                 </editor>
